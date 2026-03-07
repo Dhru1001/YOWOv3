@@ -9,6 +9,9 @@ Since many people have encountered issues with the model's performance on custom
 I'm working on adding new features based on the feedback in #issues—stay tuned for updates!
 Thank you all, with all my heart <3
 
+### 7th, March, 2026
+I'm really happy to announce that an enthusiast has published an improved version of YOWOv3. It includes some significant modifications that you might want to take a look at in #74
+
 ---
 ## Preface 
 
