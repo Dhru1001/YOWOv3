@@ -19,15 +19,16 @@ Hello, thank you everyone for your attention to this study. If you find it valua
 
 If you intend to use this repository for your own research, please consider to cite:
 ```latex
-@misc{dang2024yowov3efficientgeneralizedframework,
-      title={YOWOv3: An Efficient and Generalized Framework for Human Action Detection and Recognition}, 
-      author={Duc Manh Nguyen Dang and Viet Hang Duong and Jia Ching Wang and Nhan Bui Duc},
-      year={2024},
-      eprint={2408.02623},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2408.02623}, 
-}
+@ARTICLE{11039211,
+  author={Nguyen, Dang Duc Manh and Nhan, Bui Duc and Wang, Jia-Ching and Duong, Viet-Hang},
+  journal={IEEE Intelligent Systems}, 
+  title={YOWOv3: An Efficient and Generalized Framework for Spatiotemporal Action Detection}, 
+  year={2026},
+  volume={41},
+  number={1},
+  pages={75-85},
+  keywords={Computational modeling;Computer architecture;Feature extraction;Solid modeling;Data mining;Computational efficiency;Urban areas;Spatiotemporal phenomena;Detection algorithms},
+  doi={10.1109/MIS.2025.3581100}}
 ```
 ---
 ## About asking question
