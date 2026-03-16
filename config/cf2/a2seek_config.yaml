@@ -1,0 +1,138 @@
+BACKBONE2D:
+  YOLOv8:
+    ver : s                         # n/s/m/l/x — start with 's' for UAV small objects
+
+    PRETRAIN:
+      n : weights/backbone2D/YOLOv8/v8_n.pth
+      s : weights/backbone2D/YOLOv8/v8_s.pth
+      m : weights/backbone2D/YOLOv8/v8_m.pth
+      l : weights/backbone2D/YOLOv8/v8_l.pth
+      x : weights/backbone2D/YOLOv8/v8_x.pth
+
+BACKBONE3D:
+
+  MOBILENET:
+    width_mult: 2.0
+    PRETRAIN:
+      width_mult_0.5x  : weights/backbone3D/mobilenet/kinetics_mobilenet_0.5x_RGB_16_best.pth
+      width_mult_1.0x  : weights/backbone3D/mobilenet/kinetics_mobilenet_1.0x_RGB_16_best.pth
+      width_mult_1.5x  : weights/backbone3D/mobilenet/kinetics_mobilenet_1.5x_RGB_16_best.pth
+      width_mult_2.0x  : weights/backbone3D/mobilenet/kinetics_mobilenet_2.0x_RGB_16_best.pth
+
+  MOBILENETv2:
+    width_mult: 1.0
+    PRETRAIN:
+      width_mult_0.2x  : weights/backbone3D/mobilenetv2/kinetics_mobilenetv2_0.2x_RGB_16_best.pth
+      width_mult_0.45x : weights/backbone3D/mobilenetv2/kinetics_mobilenetv2_0.45x_RGB_16_best.pth
+      width_mult_0.7x  : weights/backbone3D/mobilenetv2/kinetics_mobilenetv2_0.7x_RGB_16_best.pth
+      width_mult_1.0x  : weights/backbone3D/mobilenetv2/kinetics_mobilenetv2_1.0x_RGB_16_best.pth
+
+  SHUFFLENET:
+    width_mult: 2.0
+    PRETRAIN:
+      width_mult_0.5x  : weights/backbone3D/shufflenet/kinetics_shufflenet_0.5x_G3_RGB_16_best.pth
+      width_mult_1.0x  : weights/backbone3D/shufflenet/kinetics_shufflenet_1.0x_G3_RGB_16_best.pth
+      width_mult_1.5x  : weights/backbone3D/shufflenet/kinetics_shufflenet_1.5x_G3_RGB_16_best.pth
+      width_mult_2.0x  : weights/backbone3D/shufflenet/kinetics_shufflenet_2.0x_G3_RGB_16_best.pth
+
+  SHUFFLENETv2:
+    width_mult: 2.0                 # ← controls model capacity
+    PRETRAIN:
+      width_mult_0.25x : weights/backbone3D/shufflenetv2/kinetics_shufflenetv2_0.25x_RGB_16_best.pth
+      width_mult_1.0x  : weights/backbone3D/shufflenetv2/kinetics_shufflenetv2_1.0x_RGB_16_best.pth
+      width_mult_1.5x  : weights/backbone3D/shufflenetv2/kinetics_shufflenetv2_1.5x_RGB_16_best.pth
+      width_mult_2.0x  : weights/backbone3D/shufflenetv2/kinetics_shufflenetv2_2.0x_RGB_16_best.pth
+
+  I3D:
+    PRETRAIN:
+      default: weights/backbone3D/I3D/rgb_imagenet.pth
+
+  RESNET:
+    ver : 101
+    PRETRAIN:
+      ver_18 : weights/backbone3D/resnet/kinetics_resnet_18_RGB_16_best.pth
+      ver_50 : weights/backbone3D/resnet/kinetics_resnet_50_RGB_16_best.pth
+      ver_101: weights/backbone3D/resnet/kinetics_resnet_101_RGB_16_best.pth
+
+  RESNEXT:
+    ver : 101
+    PRETRAIN:
+      ver_101 : weights/backbone3D/resnext/resnext-101-kinetics.pth
+
+LOSS:
+  TAL:
+    top_k  : 10
+    alpha  : 0.5
+    beta   : 6.0
+    radius : 2.5
+    soft_label : False
+    scale_cls_loss : 0.5
+    scale_box_loss : 7.5
+    scale_dfl_loss : 1.5
+
+  SIMOTA:
+    top_k  : 10
+    gamma  : 0.5
+    radius : 2.5
+    mode   : balance
+    soft_label : True
+    dynamic_k     : False
+    dynamic_top_k : 40
+    scale_cls_loss : 0.5
+    scale_box_loss : 7.5
+    scale_dfl_loss : 1.5
+
+# ─── Main config ──────────────────────────────────────────────────────────────
+config_path       : config/cf2/a2seek_config.yaml
+dataset           : a2seek
+loss              : tal
+active_checker    : True
+
+num_classes       : 20             # A2Seek has 20 anomaly classes
+backbone2D        : yolov8         # 2D backbone: YOLOv8-s
+backbone3D        : shufflenetv2   # 3D backbone: ShuffleNetV2
+fusion_module     : CFAM
+mode              : decoupled
+interchannels     : [256, 256, 256]
+
+pretrain_path : /fsxnew/dhrumil.shah/YOWOv3/weights/a2seek_shufflenetv2_test/ema_epoch_20.pth               # leave empty for scratch, or path to checkpoint
+
+data_root         : /fsxnew/dhrumil.shah/A2Seek_data/processed
+img_size          : 640
+clip_length       : 16
+batch_size        : 16
+num_workers       : 8
+acc_grad          : 4
+lr                : 0.0004
+weight_decay      : 0.0005
+max_step_warmup   : 500
+adjustlr_schedule : [4, 8, 12, 16, 19]
+max_epoch         : 20
+lr_decay          : 0.5
+save_folder       : weights/a2seek_shufflenetv2_test
+sampling_rate     : 16
+video_path   : /fsxnew/dhrumil.shah/YOWOv3/test_video.mp4
+output_path  : /fsxnew/dhrumil.shah/YOWOv3/output.mp4
+
+# ─── Class map ────────────────────────────────────────────────────────────────
+idx2name:
+  0  : fighting
+  1  : robbery
+  2  : falling
+  3  : water_play
+  4  : jaywalking
+  5  : climbing_wall
+  6  : sneaking
+  7  : running
+  8  : gathering
+  9  : chasing
+  10 : trespassing
+  11 : vandalism
+  12 : loitering
+  13 : illegal_parking
+  14 : red_light
+  15 : throwing
+  16 : carrying
+  17 : pushing
+  18 : kicking
+  19 : other
